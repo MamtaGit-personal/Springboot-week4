@@ -13,7 +13,7 @@ services:
       # These environment variables cause MySQL to create the users username/password
       # root/root and dev/dev. It also creates a database named jeep.
       MYSQL_ROOT_USER: root
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: Promineo_2021
       MYSQL_DATABASE: jeep
       MYSQL_USER: jeep
       MYSQL_PASSWORD: jeep

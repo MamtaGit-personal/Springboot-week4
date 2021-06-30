@@ -17,10 +17,5 @@ public class BaseTest {
   protected String getBaseUri() {
     return String.format("http://localhost:%d/jeeps", serverPort);
   }
-  
-  // I had to write the getRestTemplate() method manually because 
-  //@Getter lombok annotation didn't work
-  public TestRestTemplate getRestTemplate() {
-    return restTemplate;
-  }
+      
 }

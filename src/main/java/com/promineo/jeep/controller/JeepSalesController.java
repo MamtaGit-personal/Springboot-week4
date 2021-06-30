@@ -17,14 +17,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.servers.Server;
 
 @RequestMapping("/jeeps")  // To tell spring
-@OpenAPIDefinition(info = @Info(title = "Jeep Sales Service"), servers = {
-    @Server(url = "http://localhost:8080", description = "Local server.")})
+@OpenAPIDefinition(info = @Info(title = "My First Jeep Sales Service"), servers = {
+    @Server(url = "http://localhost:8080", description = "My Local server.")})
 
 public interface JeepSalesController {
   //@formatter:off
   @Operation(
-      summary = "Returns a list of Jeeps",
-      description = "Returns a list of Jeeps given an optional model and/or trim",
+      summary = "Summary - Returns a list of Jeeps",
+      description = "Description - Returns a list of Jeeps given an optional model and/or trim",
       responses = {
           @ApiResponse(
               responseCode = "200", 
