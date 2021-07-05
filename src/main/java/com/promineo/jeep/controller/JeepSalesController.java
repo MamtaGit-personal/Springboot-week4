@@ -1,12 +1,17 @@
 package com.promineo.jeep.controller;
 
 import java.util.List;
+import javax.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import com.promineo.jeep.Constants;
 import com.promineo.jeep.entity.Jeep;
+import com.promineo.jeep.entity.JeepModel;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -16,11 +21,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.servers.Server;
 
+
+@Validated  //Added Week3, video 3, bean validation
 @RequestMapping("/jeeps")  // To tell spring
 @OpenAPIDefinition(info = @Info(title = "My First Jeep Sales Service"), servers = {
     @Server(url = "http://localhost:8080", description = "My Local server.")})
 
 public interface JeepSalesController {
+  //public static final int TRIM_MAX_LENGTH = 30;
+
   //@formatter:off
   @Operation(
       summary = "Summary - Returns a list of Jeeps",
@@ -65,7 +74,11 @@ public interface JeepSalesController {
   @ResponseStatus(code = HttpStatus.OK)
   List<Jeep> fetchJeeps(
       @RequestParam(required = false) 
-        String model, 
+        JeepModel model, 
+       
+      // added bean validation - @Length and @Pattern Week3, video 3 
+      @Length(max = Constants.TRIM_MAX_LENGTH) 
+      @Pattern(regexp = "[\\w\\s]*")
       @RequestParam(required = false)  
         String trim);
   //@formatter:on
