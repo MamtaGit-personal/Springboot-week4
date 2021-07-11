@@ -8,7 +8,7 @@ import com.promineo.jeep.service.JeepOrderService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-//@Slf4j
+@Slf4j
 public class BasicJeepOrderController implements JeepOrderController {
   
   @Autowired
@@ -16,7 +16,7 @@ public class BasicJeepOrderController implements JeepOrderController {
   
   @Override
   public Order createOrder(OrderRequest orderRequest) {
-    //log.debug("Order = {} ", orderRequest);
+    log.debug("Order = {} ", orderRequest);
     return jeepOrderService.createOrder(orderRequest);
   }
 

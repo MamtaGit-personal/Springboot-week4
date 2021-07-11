@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.web.client.TestRestTemplate;
+//import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -17,7 +17,6 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import com.promineo.jeep.controller.support.CreateOrderTestSupport;
 import com.promineo.jeep.entity.Order;
 
-
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @Sql(scripts = {"classpath:flyway/migrations/V1.0__Jeep_Schema.sql",
@@ -28,34 +27,32 @@ class CreateOrderTest extends CreateOrderTestSupport {
   void testCreateOrderReturnsSuccess201() {
     
       // Given: an order as JSON
-      String body = createOrderBody();
-      String uri = getBaseUriForOrders();
       
-      TestRestTemplate restTemplate = new TestRestTemplate();
-        
+      //It's in com.promineo.jeep.controller.support package-> CreateOrderTestSupport.java class
+      String body = createOrderBody(); 
+      //TestRestTemplate restTemplate = new TestRestTemplate();
+      
       HttpHeaders headers = new HttpHeaders(); 
       headers.setContentType(MediaType.APPLICATION_JSON);
-       
-      HttpEntity<String> bodyEntity = new HttpEntity<>(body, headers);
       
-      System.out.println("My header is: " + headers); 
-      System.out.println("The uri is: " + uri);
-      System.out.println("My bodyEntity is: " + bodyEntity);
+      //It's in com.promineo.jeep.controller.support package-> BaseTest.java class
+      String uri = getBaseUriForOrders(); 
+      
+     HttpEntity<String> bodyEntity = new HttpEntity<>(body, headers);
+      
+      System.out.println("My header is: " + headers + "uri is: " + uri);
+      System.out.println("My bodyEntity is: " + bodyEntity); //bodyEntity variable is working fine
       
       // When: the order is sent
-      ResponseEntity<Order> response = restTemplate.exchange(uri, HttpMethod.POST, bodyEntity,
-          Order.class);
+      ResponseEntity<Order> response = getRestTemplate().exchange(uri, HttpMethod.POST, bodyEntity,
+           Order.class);
       
-      /*
-       * ResponseEntity<Order> response = getRestTemplate().exchange(uri, HttpMethod.POST,
-       * bodyEntity, Order.class);
-       */
-      System.out.println("My Response is: " + response);
-      System.out.println("My Response body is: " + response.getBody());
-      System.out.println("My Response header is: " + response.getHeaders());
+      System.out.println("My Response Status Code code is: " + response.getStatusCodeValue()); //returning 201
+      System.out.println("My Response body is: " + response.getBody()); // Getting null here
+      System.out.println("My Response header is: " + response.getHeaders()); //working fine
       
       // Then: a 201 status is returned
-      assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+      assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED); // getting 201 success
             
       // And: the returned order is correct
       assertThat(response.getBody()).isNotNull();
