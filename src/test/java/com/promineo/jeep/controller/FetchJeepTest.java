@@ -48,7 +48,7 @@ class FetchJeepTest {
       // Given: a valid model, trim and URI
       JeepModel model = JeepModel.WRANGLER;
       String trim = "Sport";
-      String uri = String.format("%s?model=%s&trim=%s", getBaseUri(), model, trim);
+      String uri = String.format("%s?model=%s&trim=%s", getBaseUriForJeeps(), model, trim);
       System.out.println(uri);
 
       // When: a connection is made to the URI
@@ -73,14 +73,14 @@ class FetchJeepTest {
     @Test
     void testThatAnErrorMeesageIsReturnedWhenAnUnknownTrimIsSupplied() {
       
-      // Given: a valid model, trim and URI
+      // Given: a valid model, invalid trim and URI
       JeepModel model = JeepModel.WRANGLER;
       String trim = "An Invalid Trim";
-      String uri = String.format("%s?model=%s&trim=%s", getBaseUri(), model, trim);
+      String uri = String.format("%s?model=%s&trim=%s", getBaseUriForJeeps(), model, trim);
       System.out.println(uri);
 
       // When: a connection is made to the URI
-      /* Earlier, it was as written below
+      /* Earlier, it was 
        * ResponseEntity<?> response = getRestTemplate().exchange(uri, HttpMethod.GET, null, new
        * ParameterizedTypeReference<>() {});
        */
@@ -106,7 +106,7 @@ class FetchJeepTest {
         String model, String trim, String reason) {
       
       // Given: a valid model, trim and URI
-       String uri = String.format("%s?model=%s&trim=%s", getBaseUri(), model, trim);
+       String uri = String.format("%s?model=%s&trim=%s", getBaseUriForJeeps(), model, trim);
        System.out.println(uri);
 
       // When: a connection is made to the URI
@@ -127,6 +127,7 @@ class FetchJeepTest {
   static Stream<Arguments> parametersForInvalidInput() {
     return Stream.of(
       //@formatter:off
+      //arguments("WRANGLER", "Sport", "Trim contains non-alpha-numeric value"),
       arguments("WRANGLER", "@#$%^&&%", "Trim contains non-alpha-numeric value"),
       arguments("WRANGLER", "C".repeat(Constants.TRIM_MAX_LENGTH + 1), "Trim length too long"),
       arguments("INVALID", "Sport", "Model is NOT ENUM Value")
@@ -145,12 +146,12 @@ class FetchJeepTest {
       private JeepSalesService jeepSalesService;
       //week3 - video 4
       @Test
-      void testThatAnUnplannedErrorResultsInA500Error() {
+      void testThatAnUnplannedErrorResultsInA500Status() {
         
         // Given: a valid model, trim and URI
         JeepModel model = JeepModel.WRANGLER;
-        String trim = "Sport";
-        String uri = String.format("%s?model=%s&trim=%s", getBaseUri(), model, trim);
+        String trim = "cnncncn";
+        String uri = String.format("%s?model=%s&trim=%s", getBaseUriForJeeps(), model, trim);
         System.out.println(uri);
 
         doThrow(new RuntimeException("Ouch!")).when(jeepSalesService)
@@ -161,7 +162,7 @@ class FetchJeepTest {
             getRestTemplate().exchange(uri, HttpMethod.GET, null, 
                 new ParameterizedTypeReference<>() {});
       
-        // Then: a Not Found (404) status code is returned
+        // Then: an INTERNAL_SERVER_ERROR (500) status is returned
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
 
         //week3 - video 4

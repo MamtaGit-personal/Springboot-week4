@@ -17,7 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class DefaultJeepSalesDao implements JeepSalesDao {
-
+    
+    //Week3 , video 1
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
   

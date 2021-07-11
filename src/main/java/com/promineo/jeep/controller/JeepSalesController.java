@@ -43,11 +43,11 @@ public interface JeepSalesController {
                   schema = @Schema(implementation = Jeep.class))),
           @ApiResponse(
               responseCode = "400", 
-              description = "The Request parametrs are invalid",
+              description = "The Request parameters are invalid",
               content = @Content(mediaType = "application/json")),
           @ApiResponse(
               responseCode = "404", 
-              description = "No Jeeps were found with inpout criteria",
+              description = "No Jeeps were found with input criteria",
                   content = @Content(mediaType = "application/json")),
           @ApiResponse(
               responseCode = "500", 
@@ -78,7 +78,7 @@ public interface JeepSalesController {
        
       // added bean validation - @Length and @Pattern Week3, video 3 
       @Length(max = Constants.TRIM_MAX_LENGTH) 
-      @Pattern(regexp = "[\\w\\s]*")
+      @Pattern(regexp = "[\\w\\s]*") //[\\w\\s] means words and spaces. [A-Z0-9] means all capital letters and 0-9
       @RequestParam(required = false)  
         String trim);
   //@formatter:on

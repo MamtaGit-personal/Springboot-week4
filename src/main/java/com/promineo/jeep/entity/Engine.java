@@ -1,0 +1,19 @@
+package com.promineo.jeep.entity;
+
+import java.math.BigDecimal;
+import lombok.Data;
+
+@Data
+public class Engine {
+  private Long enginePK;
+  private String engineId ;
+  private Float sizeInLiters;
+  private String name;
+  private FuelType fuelType; // enum
+  private Float mpgCity;
+  private Float mpgHwy;
+  private boolean hasStartStop ;
+  private String description;
+  private BigDecimal price;
+
+}
