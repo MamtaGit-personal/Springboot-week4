@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -24,18 +25,27 @@ public class DefaultJeepSalesDao implements JeepSalesDao {
   
     @Override
     public List<Jeep> fetchJeeps(JeepModel model, String trim) {
-      log.debug("Dao layer: model{}, trim{}", model, trim);
+      log.debug("Dao layer: model = {}, trim = {}", model, trim);
       
       //@formatter:off
       String sql = ""
           + "Select * "
           + "FROM models "
           + "WHERE  model_id = :model_id AND trim_level = :trim_level";
+          
       //@formatter:on
       
       Map<String, Object> params = new HashMap<>();
       params.put("model_id", model.toString());
       params.put("trim_level",  trim);
+      
+      /////////////////////////////////////////////////////////
+      Set<String> modelIDs = params.keySet();
+      System.out.println("6) The modelMap with keys and their respective values are:");
+      for(String modelID : modelIDs) {
+          System.out.println("key: " + modelID + ", value: " + params.get(modelID));
+      }
+      /////////////////////////////////////////////////////////
       
       return jdbcTemplate.query(sql, params, 
           new RowMapper<>() {

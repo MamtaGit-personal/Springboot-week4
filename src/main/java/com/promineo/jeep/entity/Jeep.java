@@ -3,6 +3,7 @@ package com.promineo.jeep.entity;
 
 import java.math.BigDecimal;
 import java.util.Comparator;
+import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,16 +16,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Jeep implements Comparable<Jeep>{
   private Long modelPK;
+ @Length(max=30)
   private JeepModel modelId;
   private String trimLevel;
   private int numDoors;
   private int wheelSize;
   private BigDecimal basePrice;
    
-   @JsonIgnore 
-   public Long getModelPK() { 
-     return modelPK; 
-     }
+  /*
+   * @JsonIgnore public Long getModelPK() { return modelPK; }
+   */
 
   @Override
   public int compareTo(Jeep that) {
