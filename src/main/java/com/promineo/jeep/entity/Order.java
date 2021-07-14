@@ -2,8 +2,10 @@ package com.promineo.jeep.entity;
 
 import java.math.BigDecimal;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
+
 
 @Data
 @Builder
@@ -17,7 +19,8 @@ public class Order {
     private List<Option> options;
     private BigDecimal price;
    
-     /*
-     * private String customer; private String model; private String trim; private int doors;
-     */
+    @JsonIgnore 
+    public Long getOrderPK() { 
+      return orderPK; 
+      }
 }

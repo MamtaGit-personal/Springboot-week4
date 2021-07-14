@@ -60,6 +60,6 @@ public interface JeepOrderController {
 )
   @PostMapping
   @ResponseStatus(code = HttpStatus.CREATED)
-  Order createOrder(@RequestBody OrderRequest orderRequest);
-  //Order createOrder(@Valid @RequestBody OrderRequest orderRequest);
+  //Order createOrder(@RequestBody OrderRequest orderRequest);
+  Order createOrder(@Valid @RequestBody OrderRequest orderRequest);
 }

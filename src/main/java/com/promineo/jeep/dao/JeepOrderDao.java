@@ -9,7 +9,6 @@ import com.promineo.jeep.entity.Engine;
 import com.promineo.jeep.entity.Jeep;
 import com.promineo.jeep.entity.JeepModel;
 import com.promineo.jeep.entity.Order;
-import com.promineo.jeep.entity.OrderRequest;
 import com.promineo.jeep.entity.Tire;
 import com.promineo.jeep.entity.Option;
 

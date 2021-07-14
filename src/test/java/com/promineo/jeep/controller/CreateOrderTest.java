@@ -58,11 +58,10 @@ class CreateOrderTest extends CreateOrderTestSupport {
             
       // And: the returned order is correct
       assertThat(response.getBody()).isNotNull();
-      System.out.println("assertThat response.getBody() is  NOT null");
+      System.out.println("assertThat response.getBody()=" +response.getBody());
      
       Order order = response.getBody();
-      //System.out.println("My order is: " + order);
-      
+           
       assertThat(order.getCustomer().getCustomerId()).isEqualTo("MORISON_LINA");
       assertThat(order.getModel().getModelId()).isEqualTo(JeepModel.WRANGLER);
       assertThat(order.getModel().getTrimLevel()).isEqualTo("Sport Altitude");

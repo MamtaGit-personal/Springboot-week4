@@ -28,7 +28,7 @@ public class DefaultJeepOrderService implements JeepOrderService {
   @Override
   public Order createOrder(OrderRequest orderRequest) {
     //Week 4 , video 2
-    log.debug("Service layer, Order {}", orderRequest);
+    log.debug("Service layer, Order {} =", orderRequest);
     
     Customer customer = getCustomer(orderRequest);
     
@@ -50,15 +50,10 @@ public class DefaultJeepOrderService implements JeepOrderService {
     for(Option option: options) {
       price = price.add(option.getPrice());
     }
-    log.debug("Service layer STARTS ---------------------------");
-    log.debug("Customer ={} ", customer);
-    log.debug("Jeep ={} ", jeep);
-    log.debug("Color = {} ", color);
-    log.debug("Tire= {} ", tire);
-    log.debug("Engine = {}", engine);
-    log.debug("Option = {}", options);
-    log.debug("Service layer ENDS ---------------------------");
-    // populate the order now week4, video 3
+    //log.debug("Service layer: with Customer ={}, Jeep ={}, Color = {}, Tire= {}",customer, jeep, color, tire );
+   // log.debug("Engine = {}, Option = {}", engine, options);
+   
+    // populate the order table now. week4, video 3
     return jeepOrderDao.saveOrder(customer, jeep, color, tire, engine, price, options);
   }
 
@@ -68,13 +63,15 @@ public class DefaultJeepOrderService implements JeepOrderService {
   }
 
   //////////////////////////////////////////////////////////////
+  // orderRequest.getEngine() gets the engineId from the OrderRequest  Table
   protected Engine getEngine(OrderRequest orderRequest) {
-    return jeepOrderDao.fetchEngine(orderRequest.getEngine())
+    return jeepOrderDao.fetchEngine(orderRequest.getEngine()) 
         .orElseThrow(() -> new NoSuchElementException("Engine with ID = " 
             + orderRequest.getEngine()+ " was NOT found"));
   }
 
-
+  
+  //orderRequest.getTire() gets the tireId from the OrderRequest  Table
   protected Tire getTire(OrderRequest orderRequest) {
     return jeepOrderDao.fetchTire(orderRequest.getTire())
         .orElseThrow(() -> new NoSuchElementException("Tire with ID = " 
@@ -95,6 +92,7 @@ public class DefaultJeepOrderService implements JeepOrderService {
         + ", Doors = " + orderRequest.getDoors() + " was NOT found"));
    }
 
+  //orderRequest.getCustomer() gets the customerId from the OrderRequest  Table
   protected Customer getCustomer(OrderRequest orderRequest) {
     return jeepOrderDao.fetchCustomer(orderRequest.getCustomer())
        .orElseThrow(() -> new NoSuchElementException("Customer with ID = " 

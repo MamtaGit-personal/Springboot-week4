@@ -39,9 +39,11 @@ public class DefaultJeepOrderDao implements JeepOrderDao {
   public Order saveOrder(Customer customer, Jeep jeep, Color color, Tire tire, 
       Engine engine, BigDecimal price, List<Option> options) {
    
+    //Week 4, video 4
+    log.debug("DAO layer starts here.....");
     SqlParams params = generateInsertSql(customer, jeep, color, engine, tire, price);
     KeyHolder keyHolder = new GeneratedKeyHolder();
-    jdbcTemplate.update(params.sql, params.source, keyHolder);  // Not working
+    jdbcTemplate.update(params.sql, params.source, keyHolder);  
     
     Long orderPK = keyHolder.getKey().longValue();
     saveOptions(options, orderPK);
@@ -86,6 +88,14 @@ public class DefaultJeepOrderDao implements JeepOrderDao {
     return params;
   }
 ///////////////////////////////////////////////////////////////////////////
+  /*
+   * customer_fk in the orders table is customer_pk in the customers table
+   * model_fk in the orders table is model_pk in the models table
+   * color_fk in the orders table is color_pk in the colors table
+   * tire _fk in the orders table is tire_pk in the tires table
+   * engine_fk in the orders table is engine_pk in the engines table 
+   */
+   
   private SqlParams generateInsertSql(Customer customer, Jeep jeep, Color color, Engine engine,
       Tire tire, BigDecimal price) {
    
@@ -127,7 +137,7 @@ public class DefaultJeepOrderDao implements JeepOrderDao {
       String key = "option_" + index;
       sql += ":" + key + ", ";
       params.put(key, optionIds.get(index));
-      log.debug("DAO layer, fetchOption has Index of = {}", index);
+      //log.debug("DAO layer, fetchOption has Index of = {}", index);
     }
     
     sql = sql.substring(0, sql.length() - 2);
@@ -158,9 +168,9 @@ public class DefaultJeepOrderDao implements JeepOrderDao {
     String sql = ""
         + "SELECT * "
         + "FROM customers "
-        + "WHERE customer_id = :customer_id";
+        + "WHERE customer_id = :customer_id";  
     
-    log.debug("DAO layer, fetchCustomerhas CustomerID = {}", customerId);
+    //log.debug("DAO layer, fetchCustomer has CustomerID = {}", customerId);
     Map <String, Object> params = new HashMap<>();
     params.put("customer_id", customerId);
        
@@ -179,7 +189,7 @@ public class DefaultJeepOrderDao implements JeepOrderDao {
         + "AND trim_level = :trim_level "
         + "AND num_doors = :num_doors";
     
-    log.debug("DAO layer, fetchModel has model = {}, trim = {}", model.toString(), trim);
+    //log.debug("DAO layer, fetchModel has model = {}, trim = {}", model.toString(), trim);
     Map <String, Object> params = new HashMap<>();
     params.put("model_id", model.toString());
     params.put("trim_level", trim);
@@ -197,7 +207,7 @@ public class DefaultJeepOrderDao implements JeepOrderDao {
         + "FROM colors "
         + "WHERE color_id = :color_id";
     
-    log.debug("DAO layer, fetchColor rhas ColorID = {}", colorId);
+    //log.debug("DAO layer, fetchColor rhas ColorID = {}", colorId);
     Map <String, Object> params = new HashMap<>();
     params.put("color_id", colorId);
        
@@ -213,7 +223,7 @@ public class DefaultJeepOrderDao implements JeepOrderDao {
         + "FROM tires "
         + "WHERE tire_id = :tire_id";
     
-    log.debug("DAO layer, fetchTire has TireID = {}", tireId);
+    //log.debug("DAO layer, fetchTire has TireID = {}", tireId);
     Map <String, Object> params = new HashMap<>();
     params.put("tire_id", tireId);
        
@@ -229,7 +239,7 @@ public class DefaultJeepOrderDao implements JeepOrderDao {
         + "FROM engines "
         + "WHERE engine_id = :engine_id";
     
-    log.debug("DAO layer, fetchEngine has engineId = {}", engineId);
+    //log.debug("DAO layer, fetchEngine has engineId = {}", engineId);
     Map <String, Object> params = new HashMap<>();
     params.put("engine_id", engineId);
        
@@ -245,7 +255,7 @@ public class DefaultJeepOrderDao implements JeepOrderDao {
     public Customer extractData(ResultSet rs) 
       throws SQLException, DataAccessException {
       rs.next();
-      System.out.println("DAO layer, rs.next() with customerId: " + rs.getString("customer_id"));
+      //System.out.println("DAO layer, rs.next() with customerId: " + rs.getString("customer_id"));
       // @formatter:off
       return Customer.builder()
           .customerPK(rs.getLong("customer_pk"))
@@ -264,8 +274,8 @@ public class DefaultJeepOrderDao implements JeepOrderDao {
     public Jeep extractData(ResultSet rs) 
       throws SQLException, DataAccessException {
       rs.next();
-      System.out.println("DAO layer,rs.next() for trim is: " + rs.getString("trim_level"));
-      System.out.println("DAO layer,rs.next() for model_id is: " + JeepModel.valueOf(rs.getString("model_id")));
+      //System.out.println("DAO layer,rs.next() for trim is: " + rs.getString("trim_level"));
+      //System.out.println("DAO layer,rs.next() for model_id is: " + JeepModel.valueOf(rs.getString("model_id")));
       // @formatter:off
       return Jeep.builder()
           .modelId(JeepModel.valueOf(rs.getString("model_id")))
@@ -286,7 +296,7 @@ public class DefaultJeepOrderDao implements JeepOrderDao {
     public Color extractData(ResultSet rs) 
       throws SQLException, DataAccessException {
       rs.next();
-      System.out.println("DAO layer, rs.next() with colorId: " + rs.getString("color_id"));
+      //System.out.println("DAO layer, rs.next() with colorId: " + rs.getString("color_id"));
       // @formatter:off
       return Color.builder()
           .colorPK(rs.getLong("color_pk"))
@@ -306,7 +316,7 @@ public class DefaultJeepOrderDao implements JeepOrderDao {
     public Tire extractData(ResultSet rs) 
         throws SQLException, DataAccessException {
       rs.next();
-      System.out.println("DAO layer, rs.next() with tireId: " + rs.getString("tire_id"));
+      //System.out.println("DAO layer, rs.next() with tireId: " + rs.getString("tire_id"));
       // @formatter:off
       return Tire.builder()
           .tirePK(rs.getLong("tire_pk"))
@@ -329,8 +339,8 @@ public class DefaultJeepOrderDao implements JeepOrderDao {
     public Engine extractData(ResultSet rs) 
         throws SQLException, DataAccessException {
       rs.next();
-      log.debug("DAO layer inside extractData() method");
-      System.out.println("DAO layer, rs.next() with EngineId: " + rs.getString("engine_id"));
+      //log.debug("DAO layer inside extractData() method");
+      //System.out.println("DAO layer, rs.next() with EngineId: " + rs.getString("engine_id"));
       // @formatter:off
       return Engine.builder()
           .enginePK(rs.getLong("engine_pk"))

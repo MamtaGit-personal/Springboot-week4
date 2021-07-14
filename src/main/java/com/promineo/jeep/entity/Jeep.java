@@ -16,17 +16,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Jeep implements Comparable<Jeep>{
   private Long modelPK;
- @Length(max=30)
+  @Length(max=30)
   private JeepModel modelId;
   private String trimLevel;
   private int numDoors;
   private int wheelSize;
   private BigDecimal basePrice;
    
-  /*
-   * @JsonIgnore public Long getModelPK() { return modelPK; }
-   */
-
+  @JsonIgnore public Long getModelPK() { return modelPK; }
+ 
   @Override
   public int compareTo(Jeep that) {
     // @formatter:off
